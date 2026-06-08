@@ -1,3 +1,3 @@
 This repository is used as playground to teach k8s.
 
-[Start the codespace](https://github.com/codespaces/new/citizensadvice/minikube-codespace?quickstart=1).
+[![Open in GitHub Codespaces](https://img.shields.io/badge/Open%20in-GitHub%20Codespaces-blue?logo=github)](https://codespaces.new/citizensadvice/minikube-codespace?quickstart=1)
