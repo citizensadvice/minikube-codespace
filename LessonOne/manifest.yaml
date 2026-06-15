@@ -1,0 +1,46 @@
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: nginx
+  namespace: default
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+      name: http
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: nginx2
+  namespace: default
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+      name: http
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-service
+  labels:
+    app: nginx
+  namespace: default
+spec:
+  selector:
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: http
+  type: LoadBalancer   
