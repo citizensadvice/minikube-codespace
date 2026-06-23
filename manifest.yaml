@@ -1,4 +1,35 @@
 ---
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: generic-secret
+  namespace: default
+type: Opaque
+stringData:
+  USERNAME: user
+  PASSWORD: pass
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-index
+  namespace: default
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Welcome</title>
+    </head>
+    <body>
+      <h1>Hello from ConfigMap</h1>
+      <p>This is an example index.html served by nginx.</p>
+    </body>
+    </html>
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,12 +47,22 @@ spec:
       labels:
         app: nginx
     spec:
+      volumes:
+      - name: nginx-index-volume
+        configMap:
+          name: nginx-index
       containers:
       - name: nginx
         image: nginx:1.30.2
         ports:
         - containerPort: 80
           name: http
+        volumeMounts:
+        - name: nginx-index-volume
+          mountPath: /usr/share/nginx/html
+        envFrom:
+        - secretRef:
+            name: generic-secret
 ---
 kind: Service
 apiVersion: v1
